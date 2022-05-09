@@ -1,5 +1,5 @@
-from ssl import AlertDescription
 import sys
+
 from PyQt5.QtWidgets import  (
     QApplication,
     QLabel,
@@ -12,6 +12,8 @@ from PyQt5.QtWidgets import  (
     QPushButton
 )
 
+from QMatPlot import QMatPlot
+
 class FuncPlotterUI(QMainWindow):
 
     def __init__(self, parent=None):
@@ -21,7 +23,9 @@ class FuncPlotterUI(QMainWindow):
         self._generalLayout = QHBoxLayout()
         self.setCentralWidget(self._centralWidget)
         self._centralWidget.setLayout(self._generalLayout)
+
         self._createInputs()
+        self._createPlot()
 
     def _createInputs(self):
 
@@ -53,14 +57,15 @@ class FuncPlotterUI(QMainWindow):
 
         self_plotButton = QPushButton("Plot")
         inputsLayout.addWidget(self_plotButton)
+        
         inputsLayout.setSpacing(12)
         inputsLayout.addStretch()
         self._generalLayout.addLayout(inputsLayout)
 
-    def _createGraph(self):
-        pass
-
-
+    def _createPlot(self):
+        self._plt = QMatPlot(self)
+        self._generalLayout.addWidget(self._plt)
+        self._plt.plot([0,1,2,3,4], [4,3,2,1,0])
 
 
 def main():
