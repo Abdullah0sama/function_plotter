@@ -40,22 +40,22 @@ class FuncPlotterUI(QMainWindow):
 
         # Setting up Range of x inputs
         self._min_x_Input = QSpinBox()
-        self._min_x_Input.setMinimum(-1000000)
-        self._min_x_Input.setMaximum(1000000)
+        self._min_x_Input.setRange(-1000000, 1000000)
         minSpinBoxLayout = QHBoxLayout()
         minSpinBoxLayout.addWidget(QLabel("Minimum x:"))
         minSpinBoxLayout.addWidget(self._min_x_Input)
         inputsLayout.addLayout(minSpinBoxLayout)
 
         self._max_x_Input = QSpinBox()
-        self._max_x_Input.setMinimum(-1000000)
-        self._max_x_Input.setMaximum(1000000)
+        self._max_x_Input.setRange(-1000000, 1000000)
+        self._max_x_Input.setValue(1)
         maxSpinBoxLayout = QHBoxLayout()
         maxSpinBoxLayout.addWidget(QLabel("Maximum x:"))
         maxSpinBoxLayout.addWidget(self._max_x_Input)
         inputsLayout.addLayout(maxSpinBoxLayout)
 
         self_plotButton = QPushButton("Plot")
+        self_plotButton.clicked.connect(self.plotBtnClick)
         inputsLayout.addWidget(self_plotButton)
         
         inputsLayout.setSpacing(12)
@@ -65,7 +65,12 @@ class FuncPlotterUI(QMainWindow):
     def _createPlot(self):
         self._plt = QMatPlot(self)
         self._generalLayout.addWidget(self._plt)
-        self._plt.plot([0,1,2,3,4], [4,3,2,1,0])
+
+    def plotBtnClick(self):
+        min_x = self._min_x_Input.text()
+        max_x = self._max_x_Input.text()
+        expr = self._exprInput.text()
+
 
 
 def main():
