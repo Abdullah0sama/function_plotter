@@ -23,6 +23,8 @@ class FuncPlotterUI(QMainWindow):
         self._generalLayout = QHBoxLayout()
         self.setCentralWidget(self._centralWidget)
         self._centralWidget.setLayout(self._generalLayout)
+        self._centralWidget.setObjectName('centralWidget')
+        self._centralWidget.setStyleSheet('#centralWidget{ background-color:#FFEF82; }')
 
         self._createInputs()
         self._createPlot()
@@ -32,35 +34,46 @@ class FuncPlotterUI(QMainWindow):
         inputsLayout = QVBoxLayout()
         # Setting up Expression input
         self._exprInput = QLineEdit()
-        exprInputFont = self._exprInput.font()
-        exprInputFont.setPointSize(17)
-        self._exprInput.setFont(exprInputFont)
         self._exprInput.setPlaceholderText(" F(x) to plot")
+        self._exprInput.setStyleSheet('background-color: #E4EFE7; font-size: 18px;')
         inputsLayout.addWidget(self._exprInput)
 
         # Setting up Range of x inputs
         self._min_x_Input = QSpinBox()
         self._min_x_Input.setRange(-1000000, 1000000)
+        self._min_x_Input.setStyleSheet('background-color: #E4EFE7; font-size:15px;')
         minSpinBoxLayout = QHBoxLayout()
-        minSpinBoxLayout.addWidget(QLabel("Minimum x:"))
+        minLabel = QLabel("Minimum x:")
+        minLabel.setStyleSheet('font-size: 15px;')
+        minSpinBoxLayout.addWidget(minLabel)
         minSpinBoxLayout.addWidget(self._min_x_Input)
         inputsLayout.addLayout(minSpinBoxLayout)
 
         self._max_x_Input = QSpinBox()
         self._max_x_Input.setRange(-1000000, 1000000)
         self._max_x_Input.setValue(1)
+        self._max_x_Input.setStyleSheet('background-color: #E4EFE7; font-size:15px;')
         maxSpinBoxLayout = QHBoxLayout()
-        maxSpinBoxLayout.addWidget(QLabel("Maximum x:"))
+        maxLabel = QLabel("Maximum x:")
+        maxLabel.setStyleSheet('font-size: 15px;')
+        maxSpinBoxLayout.addWidget(maxLabel)
         maxSpinBoxLayout.addWidget(self._max_x_Input)
         inputsLayout.addLayout(maxSpinBoxLayout)
 
-        self_plotButton = QPushButton("Plot")
-        self_plotButton.clicked.connect(self.plotBtnClick)
-        inputsLayout.addWidget(self_plotButton)
-        
+        self._plotButton = QPushButton("Plot")
+        self._plotButton.clicked.connect(self.plotBtnClick)
+        inputsLayout.addWidget(self._plotButton)
+        btnFont = self._plotButton.font()
+        btnFont.setBold(True)
+        btnFont.setPointSize(13)
+        self._plotButton.setFont(btnFont)
+        self._plotButton.setStyleSheet('background-color: #EFD345; color: #383838')
         inputsLayout.setSpacing(12)
         inputsLayout.addStretch()
+
+        inputsLayout.setContentsMargins(10, 15, 10, 10)
         self._generalLayout.addLayout(inputsLayout)
+        self._generalLayout.setContentsMargins(0,0,0,0)
 
     def _createPlot(self):
         self._plt = QMatPlot(self)
@@ -70,7 +83,6 @@ class FuncPlotterUI(QMainWindow):
         min_x = self._min_x_Input.text()
         max_x = self._max_x_Input.text()
         expr = self._exprInput.text()
-
 
 
 def main():
