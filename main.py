@@ -26,6 +26,8 @@ class FuncPlotterUI(QMainWindow):
         self._centralWidget.setLayout(self._generalLayout)
         self._centralWidget.setObjectName('centralWidget')
         self._centralWidget.setStyleSheet('#centralWidget{ background-color:#FFEF82; }')
+        self._centralWidget.setMinimumSize(1000, 540)
+        self._generalLayout.setContentsMargins(0,0,0,0) 
 
         self._createInputs()
         self._createPlot()
@@ -78,12 +80,11 @@ class FuncPlotterUI(QMainWindow):
         inputsLayout.addStretch()
 
         inputsLayout.setContentsMargins(10, 15, 10, 10)
-        self._generalLayout.addLayout(inputsLayout)
-        self._generalLayout.setContentsMargins(0,0,0,0)
+        self._generalLayout.addLayout(inputsLayout, 2)
             
     def _createPlot(self):
         self._plt = QMatPlot(self)
-        self._generalLayout.addWidget(self._plt)
+        self._generalLayout.addWidget(self._plt, 3)
 
     def _createAlertLabelWidget(self):
         alertLabel = QLabel()
