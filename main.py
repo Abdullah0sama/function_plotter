@@ -1,5 +1,5 @@
 import sys
-
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import  (
     QApplication,
     QLabel,
@@ -9,7 +9,8 @@ from PyQt5.QtWidgets import  (
     QLineEdit,
     QSpinBox,
     QVBoxLayout,
-    QPushButton
+    QPushButton,
+    QMessageBox
 )
 
 from QMatPlot import QMatPlot
@@ -68,22 +69,41 @@ class FuncPlotterUI(QMainWindow):
         btnFont.setPointSize(13)
         self._plotButton.setFont(btnFont)
         self._plotButton.setStyleSheet('background-color: #EFD345; color: #383838')
+
+
+        self._alertLabel = self._createAlertLabelWidget()
+        inputsLayout.addWidget(self._alertLabel)
+        
         inputsLayout.setSpacing(12)
         inputsLayout.addStretch()
 
         inputsLayout.setContentsMargins(10, 15, 10, 10)
         self._generalLayout.addLayout(inputsLayout)
         self._generalLayout.setContentsMargins(0,0,0,0)
-
+            
     def _createPlot(self):
         self._plt = QMatPlot(self)
         self._generalLayout.addWidget(self._plt)
 
-    def plotBtnClick(self):
-        min_x = self._min_x_Input.text()
-        max_x = self._max_x_Input.text()
-        expr = self._exprInput.text()
+    def _createAlertLabelWidget(self):
+        alertLabel = QLabel()
+        alertLabel.setStyleSheet('color: #FF1700; font-size:14px;')
+        alertLabel.setAlignment(Qt.AlignCenter)
+        return alertLabel
 
+    def _hideAlert(self):
+        self._alertLabel.hide()
+
+    def _showAlert(self, msg):
+        self._alertLabel.show()
+        self._alertLabel.setText(msg)
+
+    def plotBtnClick(self):
+        min_x = int(self._min_x_Input.text())
+        max_x = int(self._max_x_Input.text())
+        expr = self._exprInput.text()   
+        if min_x >= max_x:
+            self._showAlert('Minimum x should be less then maximum x')
 
 def main():
     app = QApplication(sys.argv)
