@@ -17,5 +17,6 @@ class QMatPlot(FigureCanvasQTAgg):
         self.setParent(parent)
 
     def plot(self, x, y):
+        self.axes.cla()
         self.axes.plot(x, y, 'r')
         self.draw()

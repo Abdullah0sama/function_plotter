@@ -10,7 +10,6 @@ from PyQt5.QtWidgets import  (
     QSpinBox,
     QVBoxLayout,
     QPushButton,
-    QMessageBox
 )
 
 from QMatPlot import QMatPlot
@@ -62,15 +61,12 @@ class FuncPlotterUI(QMainWindow):
         maxSpinBoxLayout.addWidget(maxLabel)
         maxSpinBoxLayout.addWidget(self._max_x_Input)
         inputsLayout.addLayout(maxSpinBoxLayout)
-
+        
+        # Setting up plot button
         self._plotButton = QPushButton("Plot")
         self._plotButton.clicked.connect(self.plotBtnClick)
         inputsLayout.addWidget(self._plotButton)
-        btnFont = self._plotButton.font()
-        btnFont.setBold(True)
-        btnFont.setPointSize(13)
-        self._plotButton.setFont(btnFont)
-        self._plotButton.setStyleSheet('background-color: #EFD345; color: #383838')
+        self._plotButton.setStyleSheet('background-color: #EFD345; color: #383838; font-size:16px;font-weight:bold;')
 
 
         self._alertLabel = self._createAlertLabelWidget()
@@ -78,7 +74,6 @@ class FuncPlotterUI(QMainWindow):
         
         inputsLayout.setSpacing(12)
         inputsLayout.addStretch()
-
         inputsLayout.setContentsMargins(10, 15, 10, 10)
         self._generalLayout.addLayout(inputsLayout, 2)
             
@@ -100,11 +95,12 @@ class FuncPlotterUI(QMainWindow):
         self._alertLabel.setText(msg)
 
     def plotBtnClick(self):
+
+        # Hides alert if it was already visible
+        self._hideAlert() 
         min_x = int(self._min_x_Input.text())
         max_x = int(self._max_x_Input.text())
         expr = self._exprInput.text()   
-        if min_x >= max_x:
-            self._showAlert('Minimum x should be less then maximum x')
 
 def main():
     app = QApplication(sys.argv)
