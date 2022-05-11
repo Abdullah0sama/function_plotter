@@ -33,7 +33,10 @@ class FuncPlotterUI(QMainWindow):
         self._createPlot()
 
     def _createInputs(self):
+        """
+            Creating necessary inputs fields and buttons
 
+        """
         inputsLayout = QVBoxLayout()
         # Setting up Expression input
         self._exprInput = QLineEdit()
@@ -67,13 +70,12 @@ class FuncPlotterUI(QMainWindow):
         self._plotButton = QPushButton("Plot")
         self._plotButton.clicked.connect(self.plotBtnClick)
         inputsLayout.addWidget(self._plotButton)
-
         self._plotButton.setStyleSheet('background-color: #EFD345; color: #383838; font-size:16px;font-weight:bold;')
 
 
         self._alertLabel = self._createAlertLabelWidget()
         inputsLayout.addWidget(self._alertLabel)
-
+        
         inputsLayout.setSpacing(12)
         inputsLayout.addStretch()
         inputsLayout.setContentsMargins(10, 15, 10, 10)
@@ -97,7 +99,7 @@ class FuncPlotterUI(QMainWindow):
         self._alertLabel.setText(msg)
 
     def plotBtnClick(self):
-        
+
         # Hides alert if it was already visible
         self._hideAlert() 
         min_x = int(self._min_x_Input.text())
@@ -109,8 +111,11 @@ class FuncPlotterUI(QMainWindow):
         except ValueError as err:
             self._showAlert(str(err))
             return 
-        except:
-            self._showAlert("Invalid expression")
+        except NameError as err:
+            self._showAlert("Variable name must be 'x'")
+            return
+        except SyntaxError as err:
+            self._showAlert('Invalid expression')
             return 
 
         self._plt.clearPlot()
