@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import  (
     QHBoxLayout,
     QMainWindow,
     QLineEdit,
-    QSpinBox,
+    QDoubleSpinBox,
     QVBoxLayout,
     QPushButton,
 )
@@ -45,7 +45,7 @@ class FuncPlotterUI(QMainWindow):
         inputsLayout.addWidget(self._exprInput)
 
         # Setting up Range of x inputs
-        self._min_x_Input = QSpinBox()
+        self._min_x_Input = QDoubleSpinBox()
         self._min_x_Input.setRange(-1000000, 1000000)
         self._min_x_Input.setStyleSheet('background-color: #E4EFE7; font-size:15px;')
         minSpinBoxLayout = QHBoxLayout()
@@ -55,7 +55,7 @@ class FuncPlotterUI(QMainWindow):
         minSpinBoxLayout.addWidget(self._min_x_Input)
         inputsLayout.addLayout(minSpinBoxLayout)
 
-        self._max_x_Input = QSpinBox()
+        self._max_x_Input = QDoubleSpinBox()
         self._max_x_Input.setRange(-1000000, 1000000)
         self._max_x_Input.setValue(1)
         self._max_x_Input.setStyleSheet('background-color: #E4EFE7; font-size:15px;')
@@ -102,8 +102,8 @@ class FuncPlotterUI(QMainWindow):
 
         # Hides alert if it was already visible
         self._hideAlert() 
-        min_x = int(self._min_x_Input.text())
-        max_x = int(self._max_x_Input.text())
+        min_x = float(self._min_x_Input.text())
+        max_x = float(self._max_x_Input.text())
         expr = self._exprInput.text()
 
         try:
@@ -117,7 +117,7 @@ class FuncPlotterUI(QMainWindow):
         except SyntaxError as err:
             self._showAlert('Invalid expression')
             return 
-
+        print(x.size)
         self._plt.clearPlot()
         self._plt.addPlot(x, y)
 
