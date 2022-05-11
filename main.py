@@ -13,6 +13,7 @@ from PyQt5.QtWidgets import  (
 )
 
 from QMatPlot import QMatPlot
+from EvalExpr import evaluateExpression
 
 class FuncPlotterUI(QMainWindow):
 
@@ -100,7 +101,21 @@ class FuncPlotterUI(QMainWindow):
         self._hideAlert() 
         min_x = int(self._min_x_Input.text())
         max_x = int(self._max_x_Input.text())
-        expr = self._exprInput.text()   
+        expr = self._exprInput.text()
+
+        try:
+            x, y = evaluateExpression(expr, min_x, max_x)
+        except ValueError as err:
+            self._showAlert(str(err))
+            return 
+        except SyntaxError as err:
+            self._showAlert("Invalid expression")
+            return 
+        except NameError as err:
+            self._showAlert("Invalid variable name")
+            return
+        self._plt.plot(x, y)
+
 
 def main():
     app = QApplication(sys.argv)
