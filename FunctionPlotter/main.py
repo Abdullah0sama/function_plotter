@@ -117,7 +117,6 @@ class FuncPlotterUI(QMainWindow):
         except SyntaxError as err:
             self._showAlert('Invalid expression')
             return 
-        print(x.size)
         self._plt.clearPlot()
         self._plt.addPlot(x, y)
 
