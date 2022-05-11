@@ -10,7 +10,7 @@ def evaluateExpression(expr, lowerBound, upperBound, variableName = 'x', step=No
     """
     # Validate input values
     if lowerBound >= upperBound:
-        raise ValueError("lowerBound: {} must be greater than upperBound: {}".format(lowerBound, upperBound))
+        raise ValueError("lowerBound must be less than upperBound")
     
     for char in expr:
         if  (char >= 'a' and char <= 'z') and char != variableName:
